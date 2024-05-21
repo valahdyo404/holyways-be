@@ -19,7 +19,18 @@ const io = new Server(server, {
   },
 })
 require("./src/socket")(io)
-
+app.get("/", async (req, res, next) => {
+  try {
+		const data = {
+			status: "Health Check Success",
+			uptime: `${Math.round(process.uptime())} second`,			
+		};
+    res.status(200).json({ msg: "Holyways Master Service", data });
+	}
+	catch (error) {
+		next(error);
+	}
+});
 //endpoint routing
 app.use("/api/v1/", router)
 //routing for static file
